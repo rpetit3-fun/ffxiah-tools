@@ -30,5 +30,11 @@ if __name__ == '__main__':
                         help='Show this help message and exit')
     
     args = parser.parse_args()
+    
+    # Set Server Prices to scrape
+    ffxiah.use_server( args.server )
+    
+    # Get prices
+    ffxiah.get_prices()
 
     
