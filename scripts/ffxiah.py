@@ -40,30 +40,33 @@ class FFXIAH( object ):
         request.add_header('User-Agent',  
                            'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)')
         html = urllib2.urlopen(request).read()
+        html = html.replace('&#039;', '\'')
         
-        return BeautifulSoup(html, "lxml")
-        
+        return BeautifulSoup(html, "html.parser")
         
     def get_prices( self ):
         self.__get_categories()
             
     def __get_categories( self ):
         soup = self.__make_soup( self.__base_url + '/browse' )
+
         for link in soup.select('ul ul li a[href]'):
             # Categories
             self.__get_items( link.get('href') )
-            break
             
     def __get_items( self, category ):
         soup = self.__make_soup( self.__base_url + category )
-        for link in soup.select('a.ucwords'):
-            # Items
-            self.__get_price(link.get('href'))
-            break
+        # Item Rows
+        for row in soup.select('table tbody tr'):
+            # Items Columns
+            cols = row.findAll('td')
             
-    def __get_price( self, url ):
-        soup = self.__make_soup( url )
-        for comment in soup.findAll('script'):
-            print comment
-
-    
+            # Some items didn't exist on retired servers, set price = 0 if so
+            price = cols[4].get_text() if cols[4].get_text() else 0
+            
+            # Item ID and Name
+            id = str(cols[1].a.get('href')).split('item/')[1].split('/')[0]
+            name = str(cols[1].get_text()).title()
+            stack = 1 if 'stack=1' in str(cols[1].a.get('href')) else 0
+            print id, '\t', name, '\t', price, '\t', stack
+            
