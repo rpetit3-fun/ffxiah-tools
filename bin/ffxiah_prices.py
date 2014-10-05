@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
-    ffxi_scraper.py
+    ffxiah_prices.py
     
     For each auctionable item in FFXI scrape the median price from FFXIAH.com.
 '''
@@ -10,7 +10,7 @@ from ffxiah.parser import Parser
 if __name__ == '__main__':
     ffxiah = Parser()
     
-    parser = ap.ArgumentParser(prog='ffxiah_scraper.py', 
+    parser = ap.ArgumentParser(prog='ffxiah_prices.py', 
                                conflict_handler='resolve', 
                                description="Scrape prices from ffxiah.com")
 
