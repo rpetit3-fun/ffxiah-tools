@@ -19,17 +19,17 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     
+    # Get DSP item info
+    dspdb = DSPDB()
+    dspdb.dsp_items()
+    
     # Set Server to scrape
     ffxiah = Parser()
     ffxiah.use_server('Carbuncle')
     
     # Get FFXIAH item info
     ffxiah.ah_items()
-    
-    # Get DSP item info
-    dspdb = DSPDB()
-    dspdb.dsp_items()
-    
+
     # Compare categories
     for item_id in ffxiah.items:
         if ffxiah.items[item_id]['category'] != dspdb.items[item_id]['category']:
@@ -37,6 +37,6 @@ if __name__ == '__main__':
             print 'Updated Category For {0} ({1}, {2}->{3})'.format(
                 ffxiah.items[item_id]['name'], 
                 item_id, 
-                ffxiah.items[item_id]['category'],
-                dspdb.items[item_id]['category']
+                dspdb.items[item_id]['category'],
+                ffxiah.items[item_id]['category']
             )

@@ -9,8 +9,8 @@ class DSPDB(object):
         self.items = {}
     
     def __connect(self):
-        self.conn = pymysql.connect(host='localhost', port=3306, user='dspdb', 
-                                    passwd='dspdb', db='dspdb')
+        self.conn = pymysql.connect(host='localhost', port=3306, user='darkstar', 
+                                    passwd='darkstar', db='dspdb')
     
     def __disconnect(self):
         self.conn.close()
