@@ -1,8 +1,8 @@
 #! /usr/bin/python
 '''
-    ffxiah_prices.py
-    
-    For each auctionable item in FFXI scrape the median price from FFXIAH.com.
+ffxiah_prices.py
+
+For each auctionable item in FFXI scrape the median price from FFXIAH.com.
 '''
 import argparse as ap
 from ffxiah.parser import Parser
@@ -11,11 +11,12 @@ from ffxiah.dspdb import DSPDB
 if __name__ == '__main__':
     ffxiah = Parser()
 
-    parser = ap.ArgumentParser(prog='ffxiah_prices.py', 
-                               conflict_handler='resolve', 
+    parser = ap.ArgumentParser(prog='ffxiah_prices.py',
+                               conflict_handler='resolve',
                                description="Scrape prices from ffxiah.com")
 
-    parser.add_argument('-s', '--server', 
+    parser.add_argument(
+        '-s', '--server',
         default='Carbuncle',
         help=('Server to scrape from.(ACTIVE: {0} || INACTIVE: {1})'.format(
             ', '.join(ffxiah.active),
@@ -23,25 +24,25 @@ if __name__ == '__main__':
         )),
         metavar=''
     )
-    parser.add_argument('-m', '--missing', 
+    parser.add_argument('-m', '--missing',
         default='Carbuncle',
         help=('Server to scrape  missing prices from.(ACTIVE: {0})'.format(
             ', '.join(ffxiah.active)
         )),
         metavar=''
     )
-    parser.add_argument('-h', '--help', action='help', 
+    parser.add_argument('-h', '--help', action='help',
                         help='Show this help message and exit')
-    
+
     args = parser.parse_args()
-    
+
     for server in args.server.split(','):
         # Set Server Prices to scrape
         ffxiah.use_server(server)
-        
+
         # Get prices
         ffxiah.ah_items()
-    
+
     # fill missing prices with an active server
     ffxiah.use_server(args.missing)
     ffxiah.ah_items(fill_missing=True)
